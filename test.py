@@ -14,7 +14,7 @@ from metrics import *
 from model import social_stgcnn
 import copy
 
-# Determine the best available device globally
+# Determine if CUDA-MPS MAC or CPU
 device = torch.device("cuda" if torch.cuda.is_available() else "mps" if torch.backends.mps.is_available() else "cpu")
 
 def test(KSTEPS=20):
