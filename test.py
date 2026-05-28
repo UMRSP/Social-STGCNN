@@ -13,7 +13,7 @@ from utils import *
 from metrics import * 
 from model import social_stgcnn
 import copy
-
+from time import time
 # Determine if CUDA-MPS MAC or CPU
 device = torch.device("cuda" if torch.cuda.is_available() else "mps" if torch.backends.mps.is_available() else "cpu")
 
@@ -26,6 +26,7 @@ def test(KSTEPS=20):
     step = 0 
     
     for batch in loader_test: 
+        start = time()
         step += 1
         # Get data and move tensors to the correct hardware device
         batch = [tensor.to(device) for tensor in batch]
@@ -102,6 +103,7 @@ def test(KSTEPS=20):
         for n in range(num_of_objs):
             ade_bigls.append(min(ade_ls[n]))
             fde_bigls.append(min(fde_ls[n]))
+        print(time()-start)
 
     ade_ = sum(ade_bigls) / len(ade_bigls) if len(ade_bigls) > 0 else 0
     fde_ = sum(fde_bigls) / len(fde_bigls) if len(fde_bigls) > 0 else 0
